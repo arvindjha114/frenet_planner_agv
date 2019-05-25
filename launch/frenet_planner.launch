@@ -1,0 +1,58 @@
+<?xml version='1.0'?>
+<launch>
+
+ <arg name="base_global_planner" default="navfn/NavfnROS" />
+	<!-- Frenet Planner -->
+
+	<node pkg = "frenet_planner" type = "frenet_planner" name = "frenet_planner" output = "screen" >
+		<rosparam file = "$(find frenet_planner)/cfg/frenet_planner.yaml" command = "load" />
+	</node>
+
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+    <remap from="odom" to="base_pose_ground_truth" />
+    <remap from="cmd_vel" to="cmd_vel_with_linear" />
+    <param name="use_sim_time" value="false" />
+    <param name="base_global_planner" value="$(arg base_global_planner)" />
+    <!-- <param name="base_local_planner" value="$(arg base_local_planner)" /> -->
+    <!-- <rosparam file="$(find car_demo)/cfg/teb_local_planner_params.yaml" command="load"/> -->
+    <rosparam file="$(find frenet_planner)/cfg/costmap_common.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find frenet_planner)/cfg/costmap_common.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find frenet_planner)/cfg/costmap_local.yaml" command="load" />
+    <rosparam file="$(find frenet_planner)/cfg/costmap_global.yaml" command="load" />
+  </node>
+	<!-- <node pkg = "costmap_2d" type = "costmap_2d_node" name = "costmap_node" output = "screen"> -->
+	<!-- <rosparam file = "$(find frenet_planner)/cfg/costmap_final.yaml" command = "load" ns = "frenet_planner -->
+	<!-- <rosparam file = "$(find frenet_planner)/cfg/costmap_global.yaml" command = "load" /> -->
+	<!-- <rosparam file = "$(find frenet_planner)/cfg/costmap_common.yaml" command = "load" ns = "costmap" /> -->
+	<!-- <rosparam file = "$(find frenet_planner)cfg/costmap_exploration.yaml" command = "load" ns = "costmap" /> -->
+	<!-- <rosparam file = "$(find frenet_planner)cfg/costmap_global_static.yaml" command = "load" ns = "costmap" />
+	<rosparam file = "$(find frenet_planner)cfg/costmap_global_laser.yaml" command = "load" ns = "costmap" /> -->
+	<!-- <rosparam file = "$(find frenet_planner)cfg/costmap_local.yaml" command = "load" ns = "costmap" /> -->
+	<!-- </node> -->
+	
+	<!-- <param name="/use_sim_time" value="true"/> -->
+	<!-- <node pkg="costmap_2d" type="costmap_2d_markers" name="voxel_visualizer"> -->
+    <!-- <remap from="voxel_grid" to="costmap/voxel_grid"/> -->
+  <!-- </node> -->
+	<!-- <node pkg = "move_base" type = "move_base" respawn="false" name="move_base" output="screen"> -->
+	<!-- <rosparam file = "$(find frenet_planner)/cfg/costmap_final.yaml" command = "load" ns = "frenet_planner"/>  -->
+	<!-- <rosparam file = "$(find frenet_planner)/cfg/costmap_global.yaml" command = "load" /> -->
+	<!-- <rosparam file = "$(find frenet_planner)/cfg/costmap_common.yaml" command = "load" ns = "costmap" /> -->
+	<!-- <rosparam file="$(find costmap_2d)/launch/example_params.yaml" command="load" ns="costmap" /> -->
+	<!-- <rosparam file = "$(find frenet_planner)cfg/costmap_exploration.yaml" command = "load" ns = "costmap" /> -->
+	<!-- <rosparam file = "$(find frenet_planner)cfg/costmap_global_static.yaml" command = "load" ns = "costmap" /> -->
+	<!-- <rosparam file = "$(find frenet_planner)cfg/costmap_local.yaml" command = "load" ns = "costmap" /> -->
+		<!-- </node> -->
+<!-- <node pkg="tf" type="static_transform_publisher" name="odom_map" args="0 0 0 0 0 0 1 map odom 100" /> -->
+  <!-- <node pkg="costmap_2d" type="costmap_2d_markers" name="voxel_visualizer">
+    <remap from="voxel_grid" to="costmap/voxel_grid"/>
+  </node> -->
+
+  <!-- Run the costmap node -->
+  <!-- <node name="costmap_node" pkg="costmap_2d" type="costmap_2d_node" >
+    <rosparam file="$(find frenet_planner)/cfg/costmap_common.yaml" command="load" ns="costmap" />
+	<rosparam file = "$(find frenet_planner)cfg/costmap_local.yaml" command = "load" ns = "costmap" /> -->
+	<!-- <rosparam file="$(find costmap_2d)/launch/example_params.yaml" command="load" ns="costmap" /> -->
+
+	
+</launch>
